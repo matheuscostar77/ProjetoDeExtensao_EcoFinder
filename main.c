@@ -3,9 +3,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-void ola(){
+
+void cadEndereco(){
     FILE *file;
-    file = fopen("enderCads","w");
+    file = fopen("enderCads.txt","a");
 
     system("clear");
     struct endereco{
@@ -13,13 +14,23 @@ void ola(){
         char rua[50];
         char numero[50];
     };
+
     struct endereco rbn;
+
     printf("Digite o bairro da sua casa:");
     fgets(rbn.bairro,50,stdin);
 
-    rbn.bairro[strcspn(rbn.bairro,"\n")]=0;
+    printf("Digite a rua da sua casa: ");
+    fgets(rbn.rua,50,stdin);
 
-    fprintf(file,"%s\n",rbn.bairro);
+    printf("Digite o numero da casa");
+    fgets(rbn.numero,50,stdin);
+
+    rbn.bairro[strcspn(rbn.bairro,"\n")]=0;
+    rbn.rua[strcspn(rbn.rua,"\n")]=0;
+    rbn.numero[strcspn(rbn.numero,"\n")]=0;
+
+    fprintf(file,"%s, %s, %s\n",rbn.bairro,rbn.rua,rbn.numero);
 
 
     fclose(file);
@@ -37,7 +48,7 @@ int main(){
 
 
 
-    printf("Escolha uma opção:\n(1)Cadastrar endereço\n(2)Locais para coleta");
+    printf("Escolha uma opção:\n(1)Cadastrar endereço\n(2)Ver chamados");
     scanf("%d",&escolha);
     getchar();
 
@@ -46,9 +57,12 @@ int main(){
     {
     case 1:
 
-        ola();
+        cadEndereco();
         break;
-    
+    case 2:
+        
+        break;
+
     default:
         printf("n foi");
         break;
