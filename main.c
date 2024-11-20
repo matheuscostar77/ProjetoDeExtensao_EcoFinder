@@ -4,12 +4,14 @@
 #include <string.h>
 
 typedef struct {
+
     char usuario[50];
     char senha[50];
 
 } Login;
 
 void cadastro(){
+
     FILE *file;
     file = fopen("usuarioCads.txt","a");
 
@@ -51,6 +53,7 @@ int logar(char usuario[],char senha[]){
 
 
     while(fscanf(file,"%s %s",usuario,senha) != EOF){
+
         if(strcmp(usuarioInsert,usuario) == 0 && strcmp(senhaInsert,senha) == 0){
             fclose(file);
             return 1;
@@ -82,13 +85,13 @@ void cadEndereco(){
     file = fopen("enderCads.txt","a");
 
     
-    struct endereco{
+    typedef struct {
         char bairro[50];
         char rua[50];
         char numero[50];
-    };
+    } endereco;
 
-    struct endereco rbn;
+    endereco rbn;
 
     printf("Digite o bairro da sua casa:");
     fgets(rbn.bairro,50,stdin);
@@ -134,7 +137,9 @@ int main(){
             while(autentificador != 1){
                 if(logar(cads.usuario,cads.senha) == 1){
                     autentificador = 1;
+                    
                 }else{
+                    system("clear");
                     printf("Login ou senha incorretos, tente novamente.\n");
                 }
             }
