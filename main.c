@@ -5,7 +5,7 @@
 
 typedef struct {
 
-    char usuario[50] ;
+    char usuario[50];
     char senha[50];
 
 } Login;
