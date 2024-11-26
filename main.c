@@ -8,12 +8,13 @@ typedef struct {
     char usuario[50];
     char senha[50];
 
-} Login;
+} Login;//struct sobre o login
 
 void cadastro(){
 
     FILE *file;
-    file = fopen("usuarioCads.txt","a");
+    file = fopen("usuarioCads.txt","a"); //abre o arquivo txt, e "a" serve para escrever e pular a linha
+   
 
     Login cads;
 
@@ -23,19 +24,20 @@ void cadastro(){
     printf("Digite a senha: ");
     fgets(cads.senha,50,stdin);
 
-    cads.usuario[strcspn(cads.usuario, "\n")] = 0;
+    cads.usuario[strcspn(cads.usuario, "\n")] = 0; //fgets pega o caractere \n e com a função strcspn, ela remove o \n da string
     cads.senha[strcspn(cads.senha, "\n")] = 0;
 
 
-    fprintf(file,"%s %s\n",cads.usuario,cads.senha);
+    fprintf(file,"%s %s\n",cads.usuario,cads.senha); //passa o usuario e senha para dentro do arquivo
 
-    fclose(file);
+    fclose(file); //fecha o arquivo
 
 }
 
+
 int logar(char usuario[],char senha[]){
     FILE *file;
-    file = fopen("usuarioCads.txt","r");
+    file = fopen("usuarioCads.txt","r"); //abre o arquivo txt, e o "r"(read) serve para ler o arquivo
     if(file == NULL){
         printf("Erro ao abrir o arquivo.\n");
     }
@@ -43,20 +45,20 @@ int logar(char usuario[],char senha[]){
     char usuarioInsert[50],senhaInsert[50];
 
     printf("Digite o usuário: ");
-    fgets(usuarioInsert,50,stdin);
+    fgets(usuarioInsert,50,stdin); 
 
     printf("Digite a senha: ");
-    fgets(senhaInsert,50,stdin);
+    fgets(senhaInsert,50,stdin); //insere o usuario e a senha no login
 
     usuarioInsert[strcspn(usuarioInsert, "\n")] = 0;
     senhaInsert[strcspn(senhaInsert, "\n")] = 0;
 
 
-    while(fscanf(file,"%s %s",usuario,senha) != EOF){
+    while(fscanf(file,"%s %s",usuario,senha) != EOF){ // EOF significa "End Of File", ou seja o arquivo irá percorrer até encontrar a ultima linha do arquivo
 
-        if(strcmp(usuarioInsert,usuario) == 0 && strcmp(senhaInsert,senha) == 0){
+        if(strcmp(usuarioInsert,usuario) == 0 && strcmp(senhaInsert,senha) == 0){//irá comparar se em pelo menos alguma linha se encontra tal usuario e tal senha
             fclose(file);
-            return 1;
+            return 1; //caso sim, ele retornará 1 para a função main
         }
     }
     fclose(file);
@@ -67,11 +69,11 @@ int logar(char usuario[],char senha[]){
 
 void consulta(){
     FILE *file;
-    file = fopen("enderCads.txt","r");
+    file = fopen("enderCads.txt","r"); //abre o arquivo txt, e o "r"(read) serve para ler o arquivo
 
     char linhas[200];
     printf("Pontos de coleta disponíveis:\n");
-    while(fgets(linhas, sizeof(linhas),file) != NULL){
+    while(fgets(linhas, sizeof(EOF),file) != NULL){ //a variavel linhas irá ler as linhas que estão dentro do arquivo, 
         printf("%s",linhas);
     }
     printf("\n");
@@ -82,14 +84,14 @@ void consulta(){
 
 void cadEndereco(){
     FILE *file;
-    file = fopen("enderCads.txt","a");
+    file = fopen("enderCads.txt","a"); //abre o arquivo txt, e "a" serve para escrever e pular a linha
 
     
     typedef struct {
         char bairro[50];
         char rua[50];
         char numero[50];
-    } endereco;
+    } endereco; //struct dos dados do endereço
 
     endereco rbn;
 
@@ -106,7 +108,7 @@ void cadEndereco(){
     rbn.rua[strcspn(rbn.rua,"\n")]=0;
     rbn.numero[strcspn(rbn.numero,"\n")]=0;
 
-    fprintf(file,"%s, %s, %s\n",rbn.bairro,rbn.rua,rbn.numero);
+    fprintf(file,"%s, %s, %s\n",rbn.bairro,rbn.rua,rbn.numero); //irá passar os dados para dentro do arquivo onde está alocado os endereços
 
 
     fclose(file);
@@ -128,19 +130,19 @@ int main(){
 
     switch(login){
         case 1:
-            cadastro();
+            cadastro(); //chama a função cadastro
 
             break;
 
         case 2:
             int autentificador = 0;
             while(autentificador != 1){
-                if(logar(cads.usuario,cads.senha) == 1){
+                if(logar(cads.usuario,cads.senha) == 1){ //se a função logar retornar 1(usuario e senha corretos), o autentificador irá receber o valor 1
                     autentificador = 1;
                     
                 }else{
                     system("clear");
-                    printf("Login ou senha incorretos, tente novamente.\n");
+                    printf("Login ou senha incorretos, tente novamente.\n"); //se continuar retornando 0, irá retornar que o usuario e senha está incorreto, e irá chamar a função logar novamente
                 }
             }
     }
