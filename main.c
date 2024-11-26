@@ -161,7 +161,7 @@ int main(){
         cadEndereco();
         break;
     case 2:
-        printf("Não implementado\n");
+        printf("Não implementado\n");//
         break;
     case 3:
         system("clear");
