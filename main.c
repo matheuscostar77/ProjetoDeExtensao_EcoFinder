@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-
+//
 
 char userInsert[50], passwordInsert[50];
 
