@@ -2,174 +2,247 @@
 #include <locale.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
-typedef struct {
 
-    char usuario[50];
-    char senha[50];
+char userInsert[50], passwordInsert[50];
 
-} Login;//struct sobre o login
+int loginColetor(char user[],char password[]){
+    FILE *file2;
+    file2 = fopen("cadastroColetor.txt","rb");
 
-void cadastro(){
-
-    FILE *file;
-    file = fopen("usuarioCads.txt","a"); //abre o arquivo txt, e "a" serve para escrever e pular a linha
    
+    char username[50], pass[50];
 
-    Login cads;
-
-    printf("Digite o usuário: ");
-    fgets(cads.usuario,50,stdin);
-
-    printf("Digite a senha: ");
-    fgets(cads.senha,50,stdin);
-
-    cads.usuario[strcspn(cads.usuario, "\n")] = 0; //fgets pega o caractere \n e com a função strcspn, ela remove o \n da string
-    cads.senha[strcspn(cads.senha, "\n")] = 0;
-
-
-    fprintf(file,"%s %s\n",cads.usuario,cads.senha); //passa o usuario e senha para dentro do arquivo
-
-    fclose(file); //fecha o arquivo
-
-}
-
-
-int logar(char usuario[],char senha[]){
-    FILE *file;
-    file = fopen("usuarioCads.txt","r"); //abre o arquivo txt, e o "r"(read) serve para ler o arquivo
-    if(file == NULL){
-        printf("Erro ao abrir o arquivo.\n");
-    }
     
-    char usuarioInsert[50],senhaInsert[50];
+    userInsert[strcspn(userInsert, "\n")] = '\0';
+    passwordInsert[strcspn(passwordInsert, "\n")] = '\0';
 
-    printf("Digite o usuário: ");
-    fgets(usuarioInsert,50,stdin); 
-
-    printf("Digite a senha: ");
-    fgets(senhaInsert,50,stdin); //insere o usuario e a senha no login
-
-    usuarioInsert[strcspn(usuarioInsert, "\n")] = 0;
-    senhaInsert[strcspn(senhaInsert, "\n")] = 0;
-
-
-    while(fscanf(file,"%s %s",usuario,senha) != EOF){ // EOF significa "End Of File", ou seja o arquivo irá percorrer até encontrar a ultima linha do arquivo
-
-        if(strcmp(usuarioInsert,usuario) == 0 && strcmp(senhaInsert,senha) == 0){//irá comparar se em pelo menos alguma linha se encontra tal usuario e tal senha
-            fclose(file);
-            return 1; //caso sim, ele retornará 1 para a função main
+    while (fscanf(file2,"%s %s",username,pass) != EOF) {
+        if (strcmp(userInsert, username) == 0 && strcmp(passwordInsert, pass) == 0) {
+            fclose(file2);
+            return 1;
         }
     }
-    fclose(file);
+    fclose(file2);
 
     return 0;
 
 }
 
-void consulta(){
-    FILE *file;
-    file = fopen("enderCads.txt","r"); //abre o arquivo txt, e o "r"(read) serve para ler o arquivo
+typedef struct {
+    char neighborhood[50];
+    char street[50];
+    char number[50];
+    char enderecoConcat[100];
+} Address; // struct of address data
 
-    char linhas[200];
-    printf("Pontos de coleta disponíveis:\n");
-    while(fgets(linhas, sizeof(EOF),file) != NULL){ //a variavel linhas irá ler as linhas que estão dentro do arquivo, 
-        printf("%s",linhas);
+typedef struct {
+    char user[50];
+    char password[50];
+    int userNumber;
+    
+} Login; // struct about login
+
+
+
+void cadastroColetor() {
+    FILE *file;
+    file = fopen("cadastroColetor.txt", "ab");
+
+    Login cad;
+
+    printf("Enter your name: ");
+    fgets(cad.user, 50, stdin);
+
+    printf("Enter your password: ");
+    fgets(cad.password, 50, stdin);
+
+    cad.user[strcspn(cad.user, "\n")] = '\0';
+    cad.password[strcspn(cad.password, "\n")] = '\0';
+
+    fprintf(file, "%s %s\n", cad.user, cad.password);
+
+    fclose(file);
+}
+
+void change() {
+    FILE *file;
+    file = fopen("enderCads.txt", "r+b");
+    Address end;
+
+    int index = 1;
+    // fseek(file, index * sizeof(Address), SEEK_SET);
+}
+
+void registration() {
+    int random, min = 0, max = 100;
+
+    FILE *file;
+    file = fopen("userCads.txt", "ab");
+
+    Login cads;
+
+    printf("Enter username: ");
+    fgets(cads.user, 50, stdin);
+
+    printf("Enter password: ");
+    fgets(cads.password, 50, stdin);
+
+    srand(time(NULL));
+    random = (min + (rand() % (max - min + 1)));
+
+    cads.userNumber = random;
+
+    cads.user[strcspn(cads.user, "\n")] = '\0';
+    cads.password[strcspn(cads.password, "\n")] = '\0';
+
+    fprintf(file, "%s %s \n", cads.user, cads.password);
+
+    fclose(file);
+}
+
+int logarUsuario(char user[], char password[]) {
+    FILE *file;
+    file = fopen("userCads.txt", "r");
+    if (file == NULL) {
+        printf("Error opening file.\n");
+        return 0;
     }
+   
+
+    
+    char username[50], pass[50];
+
+    printf("Enter username: ");
+    fgets(userInsert, 50, stdin);
+
+    printf("Enter password: ");
+    fgets(passwordInsert, 50, stdin);
+
+    userInsert[strcspn(userInsert, "\n")] = '\0';
+    passwordInsert[strcspn(passwordInsert, "\n")] = '\0';
+
+    while (fscanf(file, "%s %s", username, pass) != EOF) {
+        if (strcmp(userInsert, username) == 0 && strcmp(passwordInsert, pass) == 0) {
+            fclose(file);
+            return 1;
+        }
+    }
+    fclose(file);
+
+    return 0;
+}
+
+void query() {
+    FILE *file;
+    file = fopen("enderCads.txt", "r");
+
+    char lines[200];
+    printf("Available collection points:\n");
+    while (fgets(lines, sizeof(lines), file) != NULL) {
+        printf("%s", lines);
+    }
+
     printf("\n");
 
     fclose(file);
 }
 
-
-void cadEndereco(){
+void cadAddress() {
     FILE *file;
-    file = fopen("enderCads.txt","a"); //abre o arquivo txt, e "a" serve para escrever e pular a linha
+    file = fopen("enderCads.txt", "a");
 
-    
-    typedef struct {
-        char bairro[50];
-        char rua[50];
-        char numero[50];
-    } endereco; //struct dos dados do endereço
+    Address rbn;
 
-    endereco rbn;
+    printf("Enter your home neighborhood: ");
+    fgets(rbn.neighborhood, 50, stdin);
 
-    printf("Digite o bairro da sua casa:");
-    fgets(rbn.bairro,50,stdin);
+    printf("Enter the street of your house: ");
+    fgets(rbn.street, 50, stdin);
 
-    printf("Digite a rua da sua casa: ");
-    fgets(rbn.rua,50,stdin);
+    printf("Enter house number: ");
+    fgets(rbn.number, 50, stdin);
 
-    printf("Digite o numero da casa");
-    fgets(rbn.numero,50,stdin);
+    rbn.neighborhood[strcspn(rbn.neighborhood, "\n")] = '\0';
+    rbn.street[strcspn(rbn.street, "\n")] = '\0';
+    rbn.number[strcspn(rbn.number, "\n")] = '\0';
 
-    rbn.bairro[strcspn(rbn.bairro,"\n")]=0;
-    rbn.rua[strcspn(rbn.rua,"\n")]=0;
-    rbn.numero[strcspn(rbn.numero,"\n")]=0;
+    strcat(rbn.enderecoConcat,rbn.neighborhood);
+    strcat(rbn.enderecoConcat,", ");
+    strcat(rbn.enderecoConcat,rbn.street);
+    strcat(rbn.enderecoConcat,", ");
+    strcat(rbn.enderecoConcat,rbn.number);
 
-    fprintf(file,"%s, %s, %s\n",rbn.bairro,rbn.rua,rbn.numero); //irá passar os dados para dentro do arquivo onde está alocado os endereços
-
+    fprintf(file, "%s\n", rbn.enderecoConcat);
 
     fclose(file);
-
-
 }
 
-int main(){
-    
-    setlocale(LC_ALL,"portuguese");
+int main() {
+    setlocale(LC_ALL, "en_US.UTF-8");
     system("clear");
-    
     Login cads;
-    int login,escolha;
+    int login, choice, acesso;
 
-    printf("(1)Cadastro\n(2)Login\n");
-    scanf("%d",&login);
+    printf("(1) General Registration\n(2) Login\n(3) Collector Registration\n");
+    scanf("%d", &login);
     getchar();
 
-    switch(login){
+    switch (login) {
         case 1:
-            cadastro(); //chama a função cadastro
-
+            registration();
             break;
 
-        case 2:
-            int autentificador = 0;
-            while(autentificador != 1){
-                if(logar(cads.usuario,cads.senha) == 1){ //se a função logar retornar 1(usuario e senha corretos), o autentificador irá receber o valor 1
-                    autentificador = 1;
+        case 2: {
+            int authenticator = 0;
+            while (authenticator != 1) {
+                if (logarUsuario(cads.user, cads.password) == 0) {
+                    if(loginColetor(cads.user,cads.password) == 1){
+                        authenticator = 1;
                     
-                }else{
+                    }else {
                     system("clear");
-                    printf("Login ou senha incorretos, tente novamente.\n"); //se continuar retornando 0, irá retornar que o usuario e senha está incorreto, e irá chamar a função logar novamente
+                    printf("Incorrect login or password, try again.\n");
+                }
+                }else{
+                    authenticator = 1;
                 }
             }
+            break;
+        }
+
+        case 3:
+            cadastroColetor();
+            break;
     }
 
     system("clear");
 
-    printf("Escolha uma opção:\n(1)Cadastrar endereço\n(2)Fazer chamado\n(3)Ver chamados\n");
-    scanf("%d",&escolha);
+    printf("Choose an option:\n(1) Register address\n(2) Make a call\n(3) View calls\n(4) Change addresses\n");
+    scanf("%d", &choice);
     getchar();
-    
 
-    switch (escolha)
-    {
-    case 1:
-        system("clear");
-        cadEndereco();
-        break;
-    case 2:
-        printf("Não implementado\n");//
-        break;
-    case 3:
-        system("clear");
-        consulta();
-        break;
+    switch (choice) {
+        case 1:
+            system("clear");
+            cadAddress();
+            break;
 
-    default:
-        printf("Não implementado\n");
-        break;
+        case 2:
+            printf("Not implemented\n");
+            break;
+
+        case 3:
+            system("clear");
+            query();
+            break;
+
+        case 4:
+            break;
+
+        default:
+            printf("Not implemented\n");
+            break;
     }
 }
