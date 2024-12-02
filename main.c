@@ -28,7 +28,7 @@ int main() {
 
     printf("(1) Cadastro\n(2) Login\n");
     scanf("%d", &login);
-    getchar(); // Limpa o buffer do teclado
+    getchar();
 
     switch (login) {
         case 1:
@@ -55,7 +55,7 @@ int main() {
 
     printf("Escolha uma opção:\n(1) Cadastrar endereço\n(2) Fazer chamado\n(3) Ver chamados\n");
     scanf("%d", &escolha);
-    getchar(); // Limpa o buffer
+    getchar();
 
     switch (escolha) {
         case 1:
@@ -78,7 +78,7 @@ int main() {
 }
 
 void cadastro() {
-    FILE *file = fopen("usuarioCads.txt", "a"); // Abre o arquivo para escrita
+    FILE *file = fopen("usuarioCads.txt", "a");
     if (file == NULL) {
         printf("Erro ao abrir o arquivo.\n");
         return;
@@ -92,7 +92,7 @@ void cadastro() {
     printf("Digite a senha: ");
     fgets(cads.senha, sizeof(cads.senha), stdin);
 
-    cads.usuario[strcspn(cads.usuario, "\n")] = '\0'; // Remove o '\n'
+    cads.usuario[strcspn(cads.usuario, "\n")] = '\0';
     cads.senha[strcspn(cads.senha, "\n")] = '\0';
 
     fprintf(file, "%s %s\n", cads.usuario, cads.senha);
@@ -101,13 +101,14 @@ void cadastro() {
 }
 
 int logar() {
-    FILE *file = fopen("usuarioCads.txt", "r"); // Abre o arquivo para leitura
+    FILE *file = fopen("usuarioCads.txt", "r");
     if (file == NULL) {
         printf("Erro ao abrir o arquivo.\n");
         return 0;
     }
+    Login cads;
 
-    char usuarioInsert[50], senhaInsert[50], usuario[50], senha[50];
+    char usuarioInsert[50], senhaInsert[50];
 
     printf("Digite o usuário: ");
     fgets(usuarioInsert, sizeof(usuarioInsert), stdin);
@@ -115,11 +116,11 @@ int logar() {
     printf("Digite a senha: ");
     fgets(senhaInsert, sizeof(senhaInsert), stdin);
 
-    usuarioInsert[strcspn(usuarioInsert, "\n")] = '\0'; // Remove o '\n'
+    usuarioInsert[strcspn(usuarioInsert, "\n")] = '\0';
     senhaInsert[strcspn(senhaInsert, "\n")] = '\0';
 
-    while (fscanf(file, "%s %s", usuario, senha) != EOF) {
-        if (strcmp(usuarioInsert, usuario) == 0 && strcmp(senhaInsert, senha) == 0) {
+    while (fscanf(file, "%s %s", cads.usuario, cads.senha) != EOF) {
+        if (strcmp(usuarioInsert, cads.usuario) == 0 && strcmp(senhaInsert, cads.senha) == 0) {
             fclose(file);
             return 1;
         }
@@ -130,7 +131,7 @@ int logar() {
 }
 
 void consulta() {
-    FILE *file = fopen("enderCads.txt", "r"); // Abre o arquivo para leitura
+    FILE *file = fopen("enderCads.txt", "r");
     if (file == NULL) {
         printf("Erro ao abrir o arquivo.\n");
         return;
@@ -147,7 +148,7 @@ void consulta() {
 }
 
 void cadEndereco() {
-    FILE *file = fopen("enderCads.txt", "a"); // Abre o arquivo para escrita
+    FILE *file = fopen("enderCads.txt", "a");
     if (file == NULL) {
         printf("Erro ao abrir o arquivo.\n");
         return;
@@ -164,7 +165,7 @@ void cadEndereco() {
     printf("Digite o número: ");
     fgets(end.numero, sizeof(end.numero), stdin);
 
-    end.bairro[strcspn(end.bairro, "\n")] = '\0'; // Remove o '\n'
+    end.bairro[strcspn(end.bairro, "\n")] = '\0';
     end.rua[strcspn(end.rua, "\n")] = '\0';
     end.numero[strcspn(end.numero, "\n")] = '\0';
 
