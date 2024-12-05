@@ -23,6 +23,10 @@ int loginColetor(char user[], char senha[]) {
     FILE *file;
     file = fopen("cadastroColetor.txt", "rb");
 
+    if(file == NULL){
+        printf("Erro ao abrir o arquivo.");
+    }
+
     Login rbn;
 
     userInsert[strcspn(userInsert, "\n")] = '\0';
@@ -39,10 +43,15 @@ int loginColetor(char user[], char senha[]) {
     return 0;
 }
 
-/*int conferir_usuario(const char *usuario,int qual){
+int conferir_usuario(const char *usuario,int qual){
+    
     Login conf;
     FILE *file;
+
     file = fopen("cadastroColetor.txt","r");
+    if(file == NULL){
+        printf("Erro ao abrir o arquivo");
+    }
 
      while (fscanf(file, "%s %s", conf.user, conf.senha) != EOF) {
         if (strcmp(usuario, conf.user) == 1) {
@@ -56,11 +65,15 @@ int loginColetor(char user[], char senha[]) {
     }
 
 
-}*/
+}
 
 int cadastroColetor() {
     FILE *file;
     file = fopen("cadastroColetor.txt", "ab");
+    if(file == NULL){
+        printf("Erro ao abrir ao arquivo");
+    }
+
 
     Login cad;
 
@@ -94,6 +107,7 @@ void cadastroUsuario() {
 
     FILE *file;
     file = fopen("userCads.txt", "ab");
+
 
     Login cads;
 
@@ -164,6 +178,7 @@ void verChamados() {
 }
 
 void cadastroEndereco() {
+    
     FILE *file;
     file = fopen("enderCads.txt", "a");
 
@@ -182,13 +197,9 @@ void cadastroEndereco() {
     rbn.rua[strcspn(rbn.rua, "\n")] = '\0';
     rbn.numero[strcspn(rbn.numero, "\n")] = '\0';
 
-    strcat(rbn.enderecoConcat, rbn.bairro);
-    strcat(rbn.enderecoConcat, ", ");
-    strcat(rbn.enderecoConcat, rbn.rua);
-    strcat(rbn.enderecoConcat, ", ");
-    strcat(rbn.enderecoConcat, rbn.numero);
+    
 
-    fprintf(file, "%s\n", rbn.enderecoConcat);
+    fprintf(file, "%s, %s, %s\n", rbn.bairro,rbn.rua,rbn.numero);
 
     fclose(file);
 }
@@ -197,12 +208,14 @@ int main() {
     setlocale(LC_ALL, "Portuguese");
     system("clear");
     Login cads;
-    int escolha, acesso=0;
-
+    
+    int escolha=10, acesso=0;
+    
     printf("\n+-------------------------------+");
     printf("\n|(1) Registrar usuário comum    |");
     printf("\n|(2) Registrar coletor          |");
     printf("\n|(3) Login                      |");
+    printf("\n|(0) Sair                       |");
     printf("\n+-------------------------------+");
     printf("\n Opção: ");
     scanf("%d", &escolha);
@@ -251,20 +264,21 @@ int main() {
             system("clear");
 
             printf("\n+----------------------------+");
-            printf("\n|(3) Ver chamados            |");
-            printf("\n|(4) Reservar chamados       |");
+            printf("\n|(1) Ver chamados            |");
+            printf("\n|(2) Reservar chamados       |");
+            printf("\n|(0) Sair                    |");
             printf("\n+----------------------------+");
             printf("\n Opção: ");
             scanf("%d", &escolha);
             getchar();
 
             switch (escolha) {
-                case 3:
+                case 1:
                     system("clear");
                     verChamados();
                     break;
 
-                case 4:
+                case 2:
                     printf("Não implementado\n");
                     break;
 
@@ -281,6 +295,7 @@ int main() {
             printf("\n|(2) Fazer chamado           |");
             printf("\n|(3) Ver chamados            |");
             printf("\n|(4) Mudar endereços         |");
+            printf("\n|(0) Sair                    |");
             printf("\n+----------------------------+");
             printf("\n Opção: ");
             scanf("%d", &escolha);
