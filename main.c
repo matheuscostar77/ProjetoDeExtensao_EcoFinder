@@ -112,6 +112,9 @@ int cadastroColetor() {
 
     printf("Digite seu nome de usuário: ");
     fgets(cad.user, 50, stdin);
+    if(strcmp(cad.user," ")== 1){
+        return 0;
+    }
 
     printf("Digite sua senha: ");
     fgets(cad.senha, 50, stdin);
