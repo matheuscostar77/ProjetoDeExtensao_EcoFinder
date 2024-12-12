@@ -22,18 +22,18 @@ typedef struct {
     int userNumber;
 } Login;
 
-void escreverArquivo(){
+void escreverArquivo() {
     FILE *file;
     remove("enderCads.txt");
 
-    file = fopen("enderCads.txt","a+b");
+    file = fopen("enderCads.txt", "a+b");
 
     int i = 0; 
     while (i < posicao) {
-        if (strcmp(end[i].material,"\0") == 0) {
+        if (strcmp(end[i].material, "\0") == 0) {
             fprintf(file, "%d - %s, %s, %s\n", i, end[i].bairro, end[i].rua, end[i].numero);
         } else if (strcmp(end[i].material, "RESERVADO") == 0) {
-            fprintf(file, "%d - %s, %s, %s       %s\n", i, end[i].bairro, end[i].rua, end[i].numero,end[i].material);
+            fprintf(file, "%d - %s, %s, %s       %s\n", i, end[i].bairro, end[i].rua, end[i].numero, end[i].material);
         } else {
             fprintf(file, "%d - %s, %s, %s       MATERIAL DISPONÍVEL: %s\n", i, end[i].bairro, end[i].rua, end[i].numero, end[i].material);
         }
@@ -62,7 +62,6 @@ void verChamados() {
     getchar();
 }
 
-
 void reservar() {
     int i = 0, reserva;
 
@@ -73,9 +72,7 @@ void reservar() {
     strcpy(end[reserva].material, "RESERVADO");
 
     escreverArquivo();
-
 }
-
 
 void fazerChamado(int senhaEndereco) {
     int escolha, i = 0;
@@ -101,8 +98,6 @@ void fazerChamado(int senhaEndereco) {
         default:
             printf("Opção inválida.");
     }
-
-    remove("enderCads.txt");
 
     escreverArquivo();
 }
@@ -205,7 +200,6 @@ void cadastroUsuario() {
     }
 
     Login cads;
-    int random, min = 0, max = 100;
 
     printf("Digite seu nome de usuário: ");
     fgets(cads.user, 50, stdin);
@@ -287,7 +281,6 @@ int main() {
     int escolha = 10, acesso;
     int senhaEnd;
     while (escolha != 0) {
-        
         acesso = 0;
 
         printf("\n+-------------------------------+");
@@ -383,7 +376,7 @@ int main() {
                         break;
 
                     case 2:
-                        printf("Digite a senha do endereço: ");
+                        printf("Digite a código do endereço: ");
                         scanf("%d", &senhaEnd);
 
                         fazerChamado(senhaEnd);
@@ -392,7 +385,6 @@ int main() {
                     case 3:
                         system("clear");
                         verChamados();
-                        getchar();
                         break;
 
                     case 4:
@@ -408,3 +400,4 @@ int main() {
     }
     return 0;
 }
+
