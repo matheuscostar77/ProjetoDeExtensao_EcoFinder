@@ -282,7 +282,8 @@ int main() {
     int senhaEnd;
     while (escolha != 0) {
         acesso = 0;
-
+        
+        system("clear");
         printf("\n+-------------------------------+");
         printf("\n|(1) Registrar usuário comum    |");
         printf("\n|(2) Registrar coletor          |");
@@ -400,4 +401,3 @@ int main() {
     }
     return 0;
 }
-
