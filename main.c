@@ -454,7 +454,7 @@ void fazerChamado(int senhaEndereco) {
         default:
             printf("                                                                                     Opção inválida.");
             return;
-            
+
     }
     system("cls");
     for(int i =1; i <= 10;i++){
@@ -508,6 +508,7 @@ int loginColetor(char user[], char senha[]) {
     }
 
     Login rbn;
+    strcpy(nomemenu,userInsert);
     userInsert[strcspn(userInsert, "\n")] = '\0';
     senhaInsert[strcspn(senhaInsert, "\n")] = '\0';
 
