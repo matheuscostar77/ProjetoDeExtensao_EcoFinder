@@ -28,11 +28,11 @@ typedef struct {
 void escreverArquivo();
 int verChamados();
 void reservar();
-void fazerChamado(int senhaEndereco;
+void fazerChamado(int senhaEndereco);
 void mudarEndereco(int senhaEnd);
 int loginColetor(char user[], char senha[]);
 int cadastroColetor();
-void cadastroUsuario;
+void cadastroUsuario();
 int logarUsuario(char user[], char password[]);
 void cadastroEndereco();
 void paginainicial();
@@ -453,6 +453,8 @@ void fazerChamado(int senhaEndereco) {
             break;
         default:
             printf("                                                                                     Opção inválida.");
+            return;
+            
     }
     system("cls");
     for(int i =1; i <= 10;i++){
